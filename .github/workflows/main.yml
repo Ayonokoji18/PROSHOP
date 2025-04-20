@@ -1,38 +1,35 @@
-name : MERN CI/CD
+name: MERN CI/CD
 
-on: 
+on:
   push:
-     branches:
-        -main
+    branches:
+      - main
 
 jobs:
-   build:
-   runs-on: ubuntu-latest
+  build:
+    runs-on: ubuntu-latest
 
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-      - name:Checkout code
-        uses:actions/checkout@v2
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '18'
 
-
-      -name:Setup Node.js
-       uses: actions/setup-node@v2
-       with:
-        node-version:"18"
-
-      -name:Install backend dependencies
-       working-directory: ./backend
-       run : npm install
-
-       -name: backend tests (optional)
+      - name: Install backend dependencies
         working-directory: ./backend
-        run:npm test || echo "NO backend tests found"
+        run: npm install
 
-        -name:Install frontend dependencies
+      - name: Run backend tests (optional)
+        working-directory: ./backend
+        run: npm test || echo "No backend tests found"
+
+      - name: Install frontend dependencies
         working-directory: ./frontend
-        run :npm install
+        run: npm install
 
-        -name:Build frontend
-        working-directory : ./frontend
-        run:npm run build
-        
+      - name: Build frontend
+        working-directory: ./frontend
+        run: npm run build
